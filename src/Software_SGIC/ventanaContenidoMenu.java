@@ -6,6 +6,12 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 public class ventanaContenidoMenu extends JFrame{
+	
+	private String[] columnas = {"Nombre", "Tipo", "Ingredientes", "Fecha de Vencimiento", "Cantidad", "ID"}; //CREAMOS ARRAY HEADER
+
+	private DefaultTableModel modelo = new DefaultTableModel(columnas, 0); //CREAMOS EL MODELO DE TABLA Y ESPECIFICAMOS Header Y COLUMNAS
+	private JTable tabla = new JTable(modelo); //Creamos la tabla 
+	
 	public ventanaContenidoMenu() {
 		
 		this.setTitle("Sistema Gestor de Inventario de Comedor - Contenido Menú"); 
@@ -64,30 +70,35 @@ public class ventanaContenidoMenu extends JFrame{
 		ImageIcon iconoRedimensionado = new ImageIcon(imagenModificada);
 		JButton lblContImgn1 = new JButton(iconoRedimensionado);
 		lblContImgn1.setPreferredSize(new Dimension(60,60));
+		lblContImgn1.setToolTipText("Crear plato");
 		
 		ImageIcon imagen2 = new ImageIcon("2.png");
 		Image imagenModificada2 = imagen2.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado2 = new ImageIcon(imagenModificada2);
 		JButton lblContImgn2 = new JButton(iconoRedimensionado2);
 		lblContImgn2.setPreferredSize(new Dimension(60,60));
+		lblContImgn2.setToolTipText("Modificar plato");
 		
 		ImageIcon imagen3 = new ImageIcon("3.png");
 		Image imagenModificada3 = imagen3.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado3 = new ImageIcon(imagenModificada3);
 		JButton lblContImgn3 = new JButton(iconoRedimensionado3);
 		lblContImgn3.setPreferredSize(new Dimension(60,60));
+		lblContImgn3.setToolTipText("Eliminar plato");
 		
 		ImageIcon imagen4 = new ImageIcon("4.png");
 		Image imagenModificada4 = imagen4.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado4 = new ImageIcon(imagenModificada4);
 		JButton lblContImgn4 = new JButton(iconoRedimensionado4);
 		lblContImgn4.setPreferredSize(new Dimension(60,60));
+		lblContImgn4.setToolTipText("Retroceder");
 		
 		ImageIcon imagen5 = new ImageIcon("5.png");
 		Image imagenModificada5 = imagen5.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado5 = new ImageIcon(imagenModificada5);
 		JButton lblContImgn5 = new JButton(iconoRedimensionado5);
 		lblContImgn5.setPreferredSize(new Dimension(60,60));
+		lblContImgn5.setToolTipText("Ver información acerca de plato");
 		
 		panel3.add(lblContImgn1);
 		panel3.add(lblContImgn2);
@@ -100,10 +111,7 @@ public class ventanaContenidoMenu extends JFrame{
 		
 		//panel1 
 		
-		String[] columnas = {"Nombre", "Tipo", "Ingredientes", "Fecha de Vencimiento", "Cantidad", "ID"}; //CREAMOS ARRAY HEADER
-
-		DefaultTableModel modelo = new DefaultTableModel(columnas, 0); //CREAMOS EL MODELO DE TABLA Y ESPECIFICAMOS Header Y COLUMNAS
-		JTable tabla = new JTable(modelo); //Creamos la tabla 
+		
 		modelo.addRow(new Object[] {"Milanesas con Puré", "Salado", "Milanesas, Puré, Mayonesa.", "11/9", "5", "153"}); //Ponemos las filas
 		tabla.setFont(new Font("Arial", Font.PLAIN, 12));
 		panel1.add(new JScrollPane(tabla), BorderLayout.CENTER);
@@ -198,8 +206,8 @@ public class ventanaContenidoMenu extends JFrame{
 			//@Override	
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Altar");
-
-				ventanaAltarPlato altarPlato = new ventanaAltarPlato();
+				
+				ventanaAltarPlato altarPlato = new ventanaAltarPlato(ventanaContenidoMenu.this);
 				altarPlato.setVisible(true);
 				
 				setVisible(false);
@@ -268,4 +276,12 @@ public class ventanaContenidoMenu extends JFrame{
 		});
 
 	}
+	
+	public void recibirPlato(String nPl, String tPl, String rPl, int idP) {
+		//Funcion que recibe plato
+		modelo.addRow(new Object[] {nPl, tPl, rPl, idP});
+		
+		
+	}
+	
 }

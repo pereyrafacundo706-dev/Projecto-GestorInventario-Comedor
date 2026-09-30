@@ -2,6 +2,8 @@ package Software_SGIC;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
@@ -78,11 +80,6 @@ public class ventanaAltarMenu extends JFrame{
 		atributo2.setForeground(new Color(255,255,255));
 		atributo2.setFont(new Font("SansSerif",Font.PLAIN, 15));
 		atributo2.setBorder(new LineBorder(new Color(40, 120, 181), 1, true));
-		JLabel atributo3 = new JLabel("Cantidad:");
-		atributo3.setPreferredSize(new Dimension(200, 30));
-		atributo3.setForeground(new Color(255,255,255));
-		atributo3.setFont(new Font("SansSerif",Font.PLAIN, 15));
-		atributo3.setBorder(new LineBorder(new Color(40, 120, 181), 1, true));
 		JLabel atributo4 = new JLabel("Platos:");
 		atributo4.setPreferredSize(new Dimension(200, 30));
 		atributo4.setForeground(new Color(255,255,255));
@@ -92,7 +89,10 @@ public class ventanaAltarMenu extends JFrame{
 		
 		JLabel espacio1 = new JLabel("");
 		JLabel espacio2 = new JLabel("");
-				
+		JLabel espacio3 = new JLabel("");
+		JLabel espacio4 = new JLabel("");
+		JLabel espacio5 = new JLabel("");
+
 		JTextField atributo1C = new JTextField(15);
 		atributo1C.setPreferredSize(new Dimension(200, 30));
 		atributo1C.setForeground(new Color(255,255,255));
@@ -104,11 +104,6 @@ public class ventanaAltarMenu extends JFrame{
 		atributo2C.setOpaque(true);
 		atributo2C.setBackground(new Color(40,120,181));
 		atributo2C.setFont(new Font("SansSerif",Font.ITALIC, 15));
-		JTextField atributo3C = new JTextField();
-		atributo3C.setPreferredSize(new Dimension(200, 30));
-		atributo3C.setForeground(new Color(255,255,255));
-		atributo3C.setBackground(new Color(40,120,181));
-		atributo3C.setFont(new Font("SansSerif",Font.BOLD, 15));
 		JButton atributo4C = new JButton("Seleccionar");
 		atributo4C.setPreferredSize(new Dimension(200, 30));
 		atributo4C.setForeground(new Color(255,255,255));
@@ -117,27 +112,88 @@ public class ventanaAltarMenu extends JFrame{
 		atributo4C.setBorder(new LineBorder(new Color(229, 209, 104), 3, true));
 
 		
-		
 		panel1.add(atributo1);
 		panel1.add(atributo1C);
 		panel1.add(espacio1);
-		panel1.add(atributo3);
-		panel1.add(atributo3C);
 		panel1.add(atributo2);
 		panel1.add(atributo2C);
-		panel1.add(espacio2);
 		panel1.add(atributo4);
 		panel1.add(atributo4C);
+		panel1.add(espacio2);
+		panel1.add(espacio3);
+		panel1.add(espacio4);
+	//	panel1.add(espacio5);
 
 		
 		//panel1.setPreferredSize(new Dimension(1150, 518));
 		panel1.setBounds(0, 0, 1150, 518);
 		panel1.setOpaque(true);
 		panel1.setBackground(new Color(30,58,95));
+		
+		
+		JPanel subOrg1 = new JPanel();
+		subOrg1.setOpaque(true);
+		subOrg1.setLayout(new BorderLayout());
+		
+		JPanel panelPlatos = new JPanel();
+		panelPlatos.setVisible(false);
+		panelPlatos.setLayout(new BorderLayout());
+		
+		String[] columnas = { "ID", "Plato","Selección"};
 
+		DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+		    
+		    @Override
+		    public Class<?> getColumnClass(int columnIndex) {
+		        if (columnIndex == 2) {
+		            return Boolean.class;
+		        }
+		        return String.class;
+		    }
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		      
+		        return column >= 2; 
+		    }
+		};
+		
+		tabla.addRow(new Object[] {"783","Milangas con puré", false}); //Ponemos las filas
+
+		
+		JTable tablita = new JTable(tabla);
+		tablita.setFont(new Font("Arial", Font.PLAIN, 12));
+		JScrollPane scroll = new JScrollPane(tablita);
+		panelPlatos.add(scroll, BorderLayout.NORTH);
+		
+		scroll.setPreferredSize(new Dimension(600,300));
+		
+		JButton guardarPlatos = new JButton("Confirmar");
+		guardarPlatos.setPreferredSize(new Dimension(100, 50));
+		guardarPlatos.setForeground(new Color(255,255,255));
+		guardarPlatos.setOpaque(true);
+		guardarPlatos.setBackground(new Color(40, 120, 181));
+		guardarPlatos.setFont(new Font("SansSerif",Font.BOLD, 15));
+		guardarPlatos.setHorizontalAlignment(SwingConstants.CENTER);
+		guardarPlatos.setBorder(new LineBorder(new Color(229, 209, 104), 3, true));
+		
+		panelPlatos.add(guardarPlatos, BorderLayout.SOUTH);
+		
+		guardarPlatos.addActionListener(new ActionListener() {
+			//@Override	
+			public void actionPerformed(ActionEvent e) {
+				panelPlatos.setVisible(false);
+
+			}			
+		});
+
+		subOrg1.add(panelPlatos, BorderLayout.SOUTH);
+		subOrg1.add(panel1, BorderLayout.NORTH);
 		JPanel panelOrg1 = new JPanel();
 		panelOrg1.setLayout(new FlowLayout());
-		panelOrg1.add(panel1);
+		panelOrg1.add(subOrg1);
+		
+		
 		
 		//panel2
 		
@@ -233,8 +289,38 @@ public class ventanaAltarMenu extends JFrame{
 		guardar.addActionListener(new ActionListener() {
 			//@Override	
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Menú Altado");
+				
+				if (atributo1C.getText().isEmpty()) {
+					
+					JOptionPane.showMessageDialog(null, "Error, existe un campo vacio");
+					return;
+				}
+				
+				String nombre = atributo1C.getText();
+				int id = creadorID();
+				
+				 List<Plato> listaPlatos = new ArrayList<>();
 
+					for (int i = 0 ; i < tabla.getRowCount(); i++) {
+						
+						boolean selec = (Boolean) tabla.getValueAt(i, 2);
+						System.out.println("1");
+
+						if (selec == true) {
+							System.out.println("0");
+							String nombrePlato = (String) tabla.getValueAt(i, 1);
+							
+							Plato platos = new Plato(nombre, null,null,0,null);
+							
+							listaPlatos.add(platos);
+
+						}											
+					}
+					
+				Plato[] platos = listaPlatos.toArray(new Plato[0]);
+				altaMenu(id,nombre, platos );
+				System.out.println("Menú Altado");
+				
 			}			
 		});
 		
@@ -272,8 +358,27 @@ public class ventanaAltarMenu extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Seleccionar Platos");
 
+				panelPlatos.setVisible(true);
 			}			
 		});
 		
+		
+		
+	}
+	
+	public static int creadorID() {
+		
+		int id = (int) (Math.random() * 900) + 100;
+		
+		//comprobar que no exista otro id igual
+		
+		return id;
+	}
+	
+	public static Menu altaMenu(int id, String nombre, Plato[] plato) {
+		
+		Menu menu = new Menu(id, nombre, plato);
+		System.out.println("Nombre: "+ menu.getNombre() + " // Platos: "+ menu.getPlato());
+		return menu;
 	}
 }

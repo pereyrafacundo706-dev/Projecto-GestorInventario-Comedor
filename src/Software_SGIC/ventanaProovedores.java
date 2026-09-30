@@ -2,10 +2,19 @@ package Software_SGIC;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
 import javax.swing.border.LineBorder;
 public class ventanaProovedores extends JFrame{
+	
+	
+	//Instanciar columnas, tablemodel y jtable globalmente
+	String[] columnas = { "Nombre", "Teléfono", "Correo Electrónico"}; //CREAMOS ARRAY HEADER
+	private DefaultTableModel modelo = new DefaultTableModel(columnas, 0); //CREAMOS EL MODELO DE TABLA Y ESPECIFICAMOS Header Y COLUMNAS
+	private JTable tabla = new JTable(modelo); //Creamos la tabla 
 	
 	public ventanaProovedores() {
 		
@@ -65,24 +74,28 @@ public class ventanaProovedores extends JFrame{
 		ImageIcon iconoRedimensionado = new ImageIcon(imagenModificada);
 		JButton lblContImgn1 = new JButton(iconoRedimensionado);
 		lblContImgn1.setPreferredSize(new Dimension(60,60));
+		lblContImgn1.setToolTipText("Ingresar proovedor");
 		
 		ImageIcon imagen2 = new ImageIcon("2.png");
 		Image imagenModificada2 = imagen2.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado2 = new ImageIcon(imagenModificada2);
 		JButton lblContImgn2 = new JButton(iconoRedimensionado2);
 		lblContImgn2.setPreferredSize(new Dimension(60,60));
+		lblContImgn2.setToolTipText("Modificar proovedor");
 		
 		ImageIcon imagen3 = new ImageIcon("3.png");
 		Image imagenModificada3 = imagen3.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado3 = new ImageIcon(imagenModificada3);
 		JButton lblContImgn3 = new JButton(iconoRedimensionado3);
 		lblContImgn3.setPreferredSize(new Dimension(60,60));
+		lblContImgn3.setToolTipText("Eliminar proovedor");
 		
 		ImageIcon imagen4 = new ImageIcon("4.png");
 		Image imagenModificada4 = imagen4.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado4 = new ImageIcon(imagenModificada4);
 		JButton lblContImgn4 = new JButton(iconoRedimensionado4);
 		lblContImgn4.setPreferredSize(new Dimension(60,60));
+		lblContImgn4.setToolTipText("Retroceder");
 		
 		panel3.add(lblContImgn1);
 		panel3.add(lblContImgn2);
@@ -94,11 +107,10 @@ public class ventanaProovedores extends JFrame{
 		
 		//panel1 
 		
-		String[] columnas = { "Nombre", "Teléfono", "Correo Electrónico","ID"}; //CREAMOS ARRAY HEADER
+		
 
-		DefaultTableModel modelo = new DefaultTableModel(columnas, 0); //CREAMOS EL MODELO DE TABLA Y ESPECIFICAMOS Header Y COLUMNAS
-		JTable tabla = new JTable(modelo); //Creamos la tabla 
-		modelo.addRow(new Object[] {"Lacteos","4277 9898","lacteacontacto@gmail.com","928"}); //Ponemos las filas
+		
+		
 		tabla.setFont(new Font("Arial", Font.PLAIN, 12));
 		panel1.add(new JScrollPane(tabla), BorderLayout.CENTER);
 		panel1.setPreferredSize(new Dimension(1250, 618));
@@ -188,14 +200,15 @@ public class ventanaProovedores extends JFrame{
 		//botón altar (+)
 		
 		lblContImgn1.addActionListener(new ActionListener() {
-			//@Override	
+			
+			
+			
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Altar");
 				
-				ventanaAltarProovedor altarProv = new ventanaAltarProovedor();
+				ventanaAltarProovedor altarProv = new ventanaAltarProovedor(ventanaProovedores.this);
 				altarProv.setVisible(true);
 				
-				setVisible(false);
 
 			}			
 		});
@@ -222,10 +235,10 @@ public class ventanaProovedores extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Bajar");
 				
-				ventanaBajarProovedor bajarProv = new ventanaBajarProovedor();
+				ventanaBajarProovedor bajarProv = new ventanaBajarProovedor(ventanaProovedores.this);
 				bajarProv.setVisible(true);
 				
-				setVisible(false);
+				
 
 			}			
 		});
@@ -248,4 +261,13 @@ public class ventanaProovedores extends JFrame{
 		});
 
 	}
-}
+	
+	public void recibirProovedor(String nP, int t, String cE) {
+		
+		//Funcion que recibe los datos del proovedor
+		modelo.addRow(new Object[]{nP, t, cE});
+		
+	}
+	
+	
+	}

@@ -2,12 +2,23 @@ package Software_SGIC;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 public class ventanaContenidoDepósitos extends JFrame{
+	
+	
+	private String[] columnas = {"Nombre" , "Cantidad" , "Fecha de Vencimiento", "ID"}; //CREAMOS ARRAY HEADER
+	
+	private DefaultTableModel modelo = new DefaultTableModel(columnas, 0); //CREAMOS EL MODELO DE TABLA Y ESPECIFICAMOS Header Y COLUMNAS
+	private JTable tabla = new JTable(modelo); //Creamos la tabla 
+	ArrayList<Ingrediente> listaIngredientes = new ArrayList<>();
+
 
 public ventanaContenidoDepósitos() {
+		
 		
 		this.setTitle("Sistema Gestor de Inventario de Comedor - Contenido Depósito"); 
 		this.setSize(1366,768); 
@@ -15,6 +26,7 @@ public ventanaContenidoDepósitos() {
 		this.setLocationRelativeTo(null); 
 		this.setResizable(false); 
 		this.setLayout(new FlowLayout());
+		
 				
 		JPanel panelOrg = new JPanel();
 		JPanel panel1 = new JPanel(); //cuadro central
@@ -65,30 +77,35 @@ public ventanaContenidoDepósitos() {
 		ImageIcon iconoRedimensionado = new ImageIcon(imagenModificada);
 		JButton lblContImgn1 = new JButton(iconoRedimensionado);
 		lblContImgn1.setPreferredSize(new Dimension(60,60));
+		lblContImgn1.setToolTipText("Ingresar ingrediente");
 		
 		ImageIcon imagen2 = new ImageIcon("2.png");
 		Image imagenModificada2 = imagen2.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado2 = new ImageIcon(imagenModificada2);
 		JButton lblContImgn2 = new JButton(iconoRedimensionado2);
 		lblContImgn2.setPreferredSize(new Dimension(60,60));
+		lblContImgn2.setToolTipText("Modificar ingrediente");
 		
 		ImageIcon imagen3 = new ImageIcon("3.png");
 		Image imagenModificada3 = imagen3.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado3 = new ImageIcon(imagenModificada3);
 		JButton lblContImgn3 = new JButton(iconoRedimensionado3);
 		lblContImgn3.setPreferredSize(new Dimension(60,60));
+		lblContImgn3.setToolTipText("Eliminar ingrediente");
 		
 		ImageIcon imagen4 = new ImageIcon("4.png");
 		Image imagenModificada4 = imagen4.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado4 = new ImageIcon(imagenModificada4);
 		JButton lblContImgn4 = new JButton(iconoRedimensionado4);
 		lblContImgn4.setPreferredSize(new Dimension(60,60));
+		lblContImgn4.setToolTipText("Retroceder");
 		
 		ImageIcon imagen5 = new ImageIcon("5.png");
 		Image imagenModificada5 = imagen5.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado5 = new ImageIcon(imagenModificada5);
 		JButton lblContImgn5 = new JButton(iconoRedimensionado5);
 		lblContImgn5.setPreferredSize(new Dimension(60,60));
+		lblContImgn5.setToolTipText("Ver información acerca de ingrediente");
 		
 		panel3.add(lblContImgn1);
 		panel3.add(lblContImgn2);
@@ -101,11 +118,8 @@ public ventanaContenidoDepósitos() {
 		
 		//panel1 
 		
-		String[] columnas = {"Nombre" , "Cantidad" , "Fecha de Vencimiento", "ID"}; //CREAMOS ARRAY HEADER
-
-		DefaultTableModel modelo = new DefaultTableModel(columnas, 0); //CREAMOS EL MODELO DE TABLA Y ESPECIFICAMOS Header Y COLUMNAS
-		JTable tabla = new JTable(modelo); //Creamos la tabla 
-		modelo.addRow(new Object[] {"Manzana","10kg","20/09/2026","853"}); //Ponemos las filas
+		
+		
 		tabla.setFont(new Font("Arial", Font.PLAIN, 12));
 		panel1.add(new JScrollPane(tabla), BorderLayout.CENTER);
 		panel1.setPreferredSize(new Dimension(1250, 618));
@@ -200,10 +214,10 @@ public ventanaContenidoDepósitos() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Altar");
 				
-				ventanaAltarIngrediente altarIng = new ventanaAltarIngrediente();
+				ventanaAltarIngrediente altarIng = new ventanaAltarIngrediente(ventanaContenidoDepósitos.this);
 				altarIng.setVisible(true);
 				
-				setVisible(false);
+				
 
 			}			
 		});
@@ -269,4 +283,25 @@ public ventanaContenidoDepósitos() {
 		});
 
 	}
-}
+
+
+
+	public void recibirIngrediente(String sabor, String tipoMedida, String aptoDiabeticos, String libreGluten, String nombre, double cantidad, String fechaVencimiento, int id, String proovedor) {
+		
+		
+		modelo.addRow(new Object[]{nombre, cantidad+" "+tipoMedida, fechaVencimiento, id, proovedor});
+		
+		
+		
+	}
+	
+	
+
+		
+	}
+
+
+
+
+
+

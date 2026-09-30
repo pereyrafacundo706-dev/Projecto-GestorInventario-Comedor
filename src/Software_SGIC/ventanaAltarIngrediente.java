@@ -2,15 +2,28 @@ package Software_SGIC;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.SimpleDateFormat;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+
 import javax.swing.border.LineBorder;
 
+import java.util.ArrayList;
 import java.util.Date;
+
+
 
 public class ventanaAltarIngrediente extends JFrame{
 	
-	public ventanaAltarIngrediente() {
+	private ventanaContenidoDepósitos ventanaCont;
+	private DefaultTableModel modelo = new DefaultTableModel();
+	ArrayList<Ingrediente> listaIngredientes = new ArrayList<>();
+	private JTextField atributo1C = new JTextField(15);
+	
+	public ventanaAltarIngrediente(ventanaContenidoDepósitos parent) {
+		
+		this.ventanaCont = parent;
 		
 		this.setTitle("Sistema Gestor de Inventario de Comedor - Altar Ingrediente"); 
 		this.setSize(1366,768); 
@@ -129,7 +142,7 @@ public class ventanaAltarIngrediente extends JFrame{
 		JLabel espacio5 = new JLabel("");
 
 				
-		JTextField atributo1C = new JTextField(15);
+		
 		atributo1C.setPreferredSize(new Dimension(200, 30));
 		atributo1C.setForeground(new Color(255,255,255));
 		atributo1C.setBackground(new Color(40,120,181));
@@ -140,7 +153,8 @@ public class ventanaAltarIngrediente extends JFrame{
 		atributo2C.setOpaque(true);
 		atributo2C.setBackground(new Color(40,120,181));
 		atributo2C.setFont(new Font("SansSerif",Font.ITALIC, 15));
-		JComboBox atributo3C = new JComboBox();
+		String[] sabor = {"Indefinido", "Salado", "Agrio", "Dulce"};
+		JComboBox atributo3C = new JComboBox(sabor);
 		atributo3C.setPreferredSize(new Dimension(200, 30));
 		atributo3C.setForeground(new Color(255,255,255));
 		atributo3C.setBackground(new Color(40,120,181));
@@ -150,27 +164,33 @@ public class ventanaAltarIngrediente extends JFrame{
 		atributo4C.setForeground(new Color(255,255,255));
 		atributo4C.setBackground(new Color(40,120,181));
 		atributo4C.setFont(new Font("SansSerif",Font.BOLD, 15));
-		JComboBox atributo5C = new JComboBox();
+		//conectar con proovedores
+		String[] prov = {"Indefinido"}; 
+		JComboBox atributo5C = new JComboBox(prov);
 		atributo5C.setPreferredSize(new Dimension(200, 30));
 		atributo5C.setForeground(new Color(255,255,255));
 		atributo5C.setBackground(new Color(40,120,181));
 		atributo5C.setFont(new Font("SansSerif",Font.BOLD, 15));
-		JComboBox atributo6C = new JComboBox();
+		String[] aptoDiabeticos = {"Indefinido", "Si", "No"};
+		JComboBox atributo6C = new JComboBox(aptoDiabeticos);
 		atributo6C.setPreferredSize(new Dimension(200, 30));
 		atributo6C.setForeground(new Color(255,255,255));
 		atributo6C.setBackground(new Color(40,120,181));
 		atributo6C.setFont(new Font("SansSerif",Font.BOLD, 15));
-		JComboBox atributo7C = new JComboBox();
+		String[] aptoVeganos = {"Indefinido", "Si", "No"};
+		JComboBox atributo7C = new JComboBox(aptoVeganos);
 		atributo7C.setPreferredSize(new Dimension(200, 30));
 		atributo7C.setForeground(new Color(255,255,255));
 		atributo7C.setBackground(new Color(40,120,181));
 		atributo7C.setFont(new Font("SansSerif",Font.BOLD, 15));
-		JComboBox atributo8C = new JComboBox();
+		String[] libreGluten = {"Indefinido", "Si", "No"};
+		JComboBox atributo8C = new JComboBox(libreGluten);
 		atributo8C.setPreferredSize(new Dimension(200, 30));
 		atributo8C.setForeground(new Color(255,255,255));
 		atributo8C.setBackground(new Color(40,120,181));
 		atributo8C.setFont(new Font("SansSerif",Font.BOLD, 15));
-		JComboBox atributo10C = new JComboBox();
+		String[] medida = {"Indefinido" ,"Kilogramos", "Litros"};
+		JComboBox atributo10C = new JComboBox(medida);
 		atributo10C.setPreferredSize(new Dimension(200, 30));
 		atributo10C.setForeground(new Color(255,255,255));
 		atributo10C.setBackground(new Color(40,120,181));
@@ -321,9 +341,36 @@ public class ventanaAltarIngrediente extends JFrame{
 		guardar.addActionListener(new ActionListener() {
 			//@Override	
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Ingrediente Altado");
+								
+				if (atributo4C.getText().isEmpty() || atributo1C.getText().isEmpty()) {
+					
+					JOptionPane.showMessageDialog(null, "Error, existe un campo vacio");
+					return;
+				}else {
+					
+				String c = atributo4C.getText();
+				String sabor = (String) atributo3C.getSelectedItem();
+				String tipoMedida = (String) atributo10C.getSelectedItem();
+				String aptoVeganos = (String) atributo7C.getSelectedItem();
+				String aptoDiabeticos = (String) atributo6C.getSelectedItem();
+				String libreGluten = (String) atributo8C.getSelectedItem();;
+				String nombre = atributo1C.getText();
+				Date fechaSelec = (Date) atributo9C.getValue();
+				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+				String fechaVencimiento = formato.format(fechaSelec);
+				String proovedor = (String) atributo5C.getSelectedItem();
+				Double cantidad = Double.parseDouble(c);
+				int id = creadorID();
+								
+				
+				altaIngrediente(sabor,  tipoMedida,  aptoDiabeticos,  libreGluten,  nombre,  cantidad,  fechaVencimiento,  id,  proovedor);
+				actualizarIngrediente(modelo);
+				setVisible(false);
+			
+				System.out.println("Ingrediente Altado: "+"Nombre: "+ nombre + " // ID: "+id);
 
-			}			
+			}		
+			}
 		});
 		
 		//botón Usuario
@@ -352,9 +399,46 @@ public class ventanaAltarIngrediente extends JFrame{
 				salir.setVisible(true);
 			}			
 		});
-		
-		
+	}
+	
+	
 
+	public static int creadorID() {
+		
+		int id = (int) (Math.random() * 900) + 100;
+		
+		//comprobar que no exista otro id igual
+		
+		return id;
+	}
+	
+	public void altaIngrediente(String sabor, String tipoMedida, String aptoDiabeticos, String libreGluten, String nombre, double cantidad, String fechaVencimiento, int id, String proovedor) {
+		
+		Ingrediente ingr = new Ingrediente(sabor,  tipoMedida,  aptoDiabeticos,  libreGluten,  nombre, cantidad,  fechaVencimiento,  id,  proovedor);
+		listaIngredientes.add(ingr);
+		
+		ventanaCont.recibirIngrediente(sabor, tipoMedida, aptoDiabeticos, libreGluten, nombre, cantidad, fechaVencimiento, id, proovedor);
+		ventanaCont.setVisible(true);
 		
 	}
+	
+	public void actualizarIngrediente(DefaultTableModel modelo) {
+		
+		modelo.setRowCount(0);
+		for(Ingrediente ing: listaIngredientes) {
+			
+			Object[] fila = {ing.getNombre(), ing.getTipoMedida(), ing.getCantidad(), ing.getAptoDiabeticos(), ing.getFechaVencimiento(), ing.getSabor(), ing.getId(), ing.getProovedor(), ing.getLibreGluten()};
+			modelo.addRow(fila);
+			
+		}
+		
+	}
+	
+	
+	
+	
+	
+
+
 }
+

@@ -7,7 +7,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 public class ventanaBajarProovedor extends JFrame{
 	
-	public ventanaBajarProovedor() {
+	private ventanaProovedores ventanaProovedores;
+	
+	private JComboBox atributo1C = new JComboBox();	
+	public ventanaBajarProovedor(ventanaProovedores parent) {
+		
+		this.ventanaProovedores = parent;
 		
 		this.setTitle("Sistema Gestor de Inventario de Comedor - Bajar Proovedor"); 
 		this.setSize(1366,768); 
@@ -84,7 +89,7 @@ public class ventanaBajarProovedor extends JFrame{
 		JLabel espacio1 = new JLabel("");
 
 				
-		JComboBox atributo1C = new JComboBox();	
+		
 		atributo1C.setPreferredSize(new Dimension(200, 30));
 		atributo1C.setForeground(new Color(255,255,255));
 		atributo1C.setBackground(new Color(40,120,181));
@@ -241,6 +246,15 @@ public class ventanaBajarProovedor extends JFrame{
 
 			}			
 		});
+		
+	}
+	
+	public void bajaProovedor(String nP, int tP, String cE, DefaultTableModel tabla) {
+
+		Proovedor p = new Proovedor(cE, tP, cE);
+		atributo1C.addItem(p);
+		
+		
 		
 	}
 }

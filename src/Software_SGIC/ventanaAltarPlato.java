@@ -2,12 +2,20 @@ package Software_SGIC;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.LineBorder;
 public class ventanaAltarPlato extends JFrame{
 	
-	public ventanaAltarPlato() {
+	ArrayList <Plato> listaPlatos = new ArrayList<>();
+	private DefaultTableModel modelo = new DefaultTableModel();
+	private ventanaContenidoMenu ventanaContMenu;
+	
+	public ventanaAltarPlato(ventanaContenidoMenu parent) {
+		
+		this.ventanaContMenu = parent;
 		
 		this.setTitle("Sistema Gestor de Inventario de Comedor - Altar Plato"); 
 		this.setSize(1366,768); 
@@ -93,16 +101,14 @@ public class ventanaAltarPlato extends JFrame{
 		atributo5.setForeground(new Color(255,255,255));
 		atributo5.setFont(new Font("SansSerif",Font.PLAIN, 15));
 		atributo5.setBorder(new LineBorder(new Color(40, 120, 181), 1, true));
-		JLabel atributo6 = new JLabel("Expiración:");
-		atributo6.setPreferredSize(new Dimension(200, 30));
-		atributo6.setForeground(new Color(255,255,255));
-		atributo6.setFont(new Font("SansSerif",Font.PLAIN, 15));
-		atributo6.setBorder(new LineBorder(new Color(40, 120, 181), 1, true));
 		
 		
 		JLabel espacio1 = new JLabel("");
 		JLabel espacio2 = new JLabel("");
 		JLabel espacio3 = new JLabel("");
+		JLabel espacio4 = new JLabel("");
+		JLabel espacio5 = new JLabel("");
+
 
 				
 		JTextField atributo1C = new JTextField(15);
@@ -127,15 +133,12 @@ public class ventanaAltarPlato extends JFrame{
 		atributo4C.setBackground(new Color(40,120,181));
 		atributo4C.setFont(new Font("SansSerif",Font.BOLD, 15));
 		atributo4C.setBorder(new LineBorder(new Color(229, 209, 104), 3, true));
-		JComboBox atributo5C = new JComboBox();
+		String[] tipos = {"Desayuno", "Almuerzo", "Cena", "Merienda", "Indefinido"};
+		JComboBox atributo5C = new JComboBox(tipos);
 		atributo5C.setPreferredSize(new Dimension(200, 30));
 		atributo5C.setForeground(new Color(255,255,255));
 		atributo5C.setBackground(new Color(40,120,181));
-		atributo5C.setFont(new Font("SansSerif",Font.BOLD, 15));
-		SpinnerDateModel spinermodel = new SpinnerDateModel();
-		JSpinner atributo6C = new JSpinner(spinermodel);
-		JSpinner.DateEditor editor = new JSpinner.DateEditor(atributo6C, "dd/MM/yyyy" );
-		atributo6C.setEditor(editor);
+		atributo5C.setFont(new Font("SansSerif",Font.BOLD, 15));		
 		
 		
 		panel1.add(atributo1);
@@ -151,18 +154,79 @@ public class ventanaAltarPlato extends JFrame{
 		panel1.add(atributo4);
 		panel1.add(atributo4C);
 		panel1.add(espacio3);
-		panel1.add(atributo6);
-		panel1.add(atributo6C);
+		panel1.add(espacio4);
+		panel1.add(espacio5);
+
 
 		
 		//panel1.setPreferredSize(new Dimension(1150, 518));
 		panel1.setBounds(0, 0, 1150, 518);
 		panel1.setOpaque(true);
 		panel1.setBackground(new Color(30,58,95));
+		
+		JPanel subOrg1 = new JPanel();
+		subOrg1.setLayout(new BorderLayout());
+		
+		subOrg1.add(panel1, BorderLayout.NORTH);
+		
+		JPanel panelIng = new JPanel();
+		panelIng.setVisible(false);
+		panelIng.setOpaque(false);
+		panelIng.setLayout(new BorderLayout());
+		
+		String[] columnas = { "ID", "Ingrediente","Cantidad Total", "Selección", "Cantidad a Usar"};
 
+		DefaultTableModel tabla = new DefaultTableModel(columnas, 0) {
+		    
+		    @Override
+		    public Class<?> getColumnClass(int columnIndex) {
+		        if (columnIndex == 3) {
+		            return Boolean.class;
+		        }
+		        return String.class;
+		    }
+
+		    @Override
+		    public boolean isCellEditable(int row, int column) {
+		       
+		        return column >= 3; 
+		    }
+		};
+		
+		tabla.addRow(new Object[] {"123","Ing","1200.0g", false, "Escriba aquí"}); //Ponemos las filas
+
+		
+		JTable tablita = new JTable(tabla);
+		tablita.setFont(new Font("Arial", Font.PLAIN, 12));
+		JScrollPane scroll = new JScrollPane(tablita);
+		panelIng.add(scroll, BorderLayout.NORTH);
+		
+		scroll.setPreferredSize(new Dimension(600,300));
+		
+		JButton guardarIngs = new JButton("Confirmar");
+		guardarIngs.setPreferredSize(new Dimension(100, 50));
+		guardarIngs.setForeground(new Color(255,255,255));
+		guardarIngs.setOpaque(true);
+		guardarIngs.setBackground(new Color(40, 120, 181));
+		guardarIngs.setFont(new Font("SansSerif",Font.BOLD, 15));
+		guardarIngs.setHorizontalAlignment(SwingConstants.CENTER);
+		guardarIngs.setBorder(new LineBorder(new Color(229, 209, 104), 3, true));
+		
+		panelIng.add(guardarIngs, BorderLayout.SOUTH);
+		
+		guardarIngs.addActionListener(new ActionListener() {
+			//@Override	
+			public void actionPerformed(ActionEvent e) {
+				panelIng.setVisible(false);
+				
+			}			
+		});
+		
+		subOrg1.add(panelIng, BorderLayout.SOUTH);
+		
 		JPanel panelOrg1 = new JPanel();
 		panelOrg1.setLayout(new FlowLayout());
-		panelOrg1.add(panel1);
+		panelOrg1.add(subOrg1);
 		
 		//panel2
 		
@@ -224,6 +288,7 @@ public class ventanaAltarPlato extends JFrame{
 		interfazSup.setOpaque(false);
 		interfazOrg.setOpaque(false);
 		panelOrg1.setOpaque(false);
+		subOrg1.setOpaque(false);
 
 		
 		ImageIcon fondo = new ImageIcon("fondo.png");
@@ -257,9 +322,45 @@ public class ventanaAltarPlato extends JFrame{
 		guardar.addActionListener(new ActionListener() {
 			//@Override	
 			public void actionPerformed(ActionEvent e) {
+				
+				if (atributo3C.getText().isEmpty() || atributo1C.getText().isEmpty()) {
+					
+					JOptionPane.showMessageDialog(null, "Error, existe un campo vacio");
+
+				}else {
+				
+				String nombre = atributo1C.getText();
+				String tipo = (String) atributo5C.getSelectedItem();
+				String receta = atributo3C.getText();
+				int id = creadorID();
+		        List<Ingrediente> listaIngredientes = new ArrayList<>();
+
+				for (int i = 0 ; i < tabla.getRowCount(); i++) {
+					
+					boolean selec = (Boolean) tabla.getValueAt(i, 3);
+					System.out.println("1");
+
+					if (selec == true) {
+						System.out.println("0");
+						String nombreIng = (String) tabla.getValueAt(i, 1);
+						
+						Ingrediente ingProv = new Ingrediente(null,null,null,null,null,0,null,0, null);
+						
+						listaIngredientes.add(ingProv);
+
+					}
+					
+					Ingrediente[] ingredientes = listaIngredientes.toArray(new Ingrediente[0]);
+										
+					altaPlato(nombre, tipo, receta, id, ingredientes);
+					actualizarPlato(tabla);
+				}
+								
+				
 				System.out.println("Plato Altado");
 
-			}			
+			}	
+			}
 		});
 		
 		//botón Usuario
@@ -296,7 +397,10 @@ public class ventanaAltarPlato extends JFrame{
 			//@Override	
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Seleccionar Ingredientes");
-
+				
+				panelIng.setVisible(true);
+				
+				
 			}			
 		});
 		
@@ -304,4 +408,38 @@ public class ventanaAltarPlato extends JFrame{
 
 		
 	}
+	
+	public static int creadorID() {
+		
+		int id = (int) (Math.random() * 900) + 100;
+		
+		//comprobar que no exista otro id igual
+		
+		return id;
+	}
+	
+	public void altaPlato(String nombre, String tipo, String receta, int id, Ingrediente[] ing) {
+		
+		Plato plato = new Plato(nombre, tipo, receta, id, ing);
+		listaPlatos.add(plato);
+		
+		System.out.println("Nombre Plato: "+ plato.getNombre()+" // Ingredientes: "+ plato.getIng().toString()+ " // Receta: "+ plato.getReceta());
+		
+		ventanaContMenu.recibirPlato(nombre, tipo, receta, id);
+		ventanaContMenu.setVisible(true);
+	}
+	
+	public void actualizarPlato(DefaultTableModel tabla) {
+		
+		tabla.setRowCount(0);
+		for(Plato plato: listaPlatos) {
+			
+			Object[] fila = {plato.getNombre(), plato.getTipo(), plato.getId(), plato.getIng(), plato.getReceta()};
+			tabla.addRow(fila);
+			
+		}
+		
+	}
+	
+	
 }

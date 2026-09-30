@@ -36,8 +36,10 @@ public class VentanaInicioSesion extends JFrame {
 		Image imagenModificada6 = imagen1.getImage().getScaledInstance(100,100, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado6 = new ImageIcon(imagenModificada6);
 		JLabel contlabelIconoUsuario = new JLabel(iconoRedimensionado6);
-		JButton iniciarMenu = new JButton("Iniciar");
-		iniciarMenu.setFont(new Font("SansSerif", Font.BOLD, 15));		
+		JButton iniciarMenu = new JButton("Ingresar");
+		iniciarMenu.setFont(new Font("SansSerif", Font.BOLD, 15));	
+		JButton registroMenu = new JButton("Registrarse");
+		registroMenu.setFont(new Font("SansSerif", Font.BOLD, 15));	
 
 		JPanel panelTextfields = new JPanel(new GridLayout(2, 1, 0, 40));
 		panelTextfields.add(nombreIng);
@@ -52,19 +54,28 @@ public class VentanaInicioSesion extends JFrame {
 
 		panelCentro.setBounds(483, 234, 400, 300);
 		contlabelIconoUsuario.setBounds(601, 140, 160, 160);
-		iniciarMenu.setBounds(629, 500, 100, 50);
+		iniciarMenu.setBounds(562, 500, 100, 50);
+		registroMenu.setBounds(696, 500, 100, 50);
+
+
 
 		panell.add(panelCentro);
 		panell.add(contlabelIconoUsuario);
 		panell.add(iniciarMenu);
+		panell.add(registroMenu);
+
 
 		panell.setLayer(panelCentro, 1);
 		panell.setLayer(contlabelIconoUsuario, 2);
 		panell.setLayer(iniciarMenu, 2);
+		panell.setLayer(registroMenu, 2);
+
 		
 		Border bordeboton = BorderFactory.createLineBorder(new Color(30, 58, 95), 6);
 		iniciarMenu.setBorder(bordeboton);
 		iniciarMenu.setBackground(new Color(255, 255 ,255));
+		registroMenu.setBorder(bordeboton);
+		registroMenu.setBackground(new Color(255, 255 ,255));
 		panelCentro.setMaximumSize(new Dimension(400, 200));
 		
 		ImageIcon fondo = new ImageIcon("fondo.png");
@@ -87,6 +98,16 @@ public class VentanaInicioSesion extends JFrame {
 				ventanamenu.setVisible(true);
 				setVisible(false);
 				
+			}
+		});
+		
+		registroMenu.addActionListener(new ActionListener() {
+			
+			
+			public void actionPerformed(ActionEvent e) {
+								
+				ventanaRegistroUsuario ventanaRegistro = new ventanaRegistroUsuario();
+				ventanaRegistro.setVisible(true);				
 			}
 		});
 

@@ -14,6 +14,7 @@ public class VentanaMenu extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
+		
 					
 		
 		JPanel panelOrg = new JPanel();
@@ -26,33 +27,40 @@ public class VentanaMenu extends JFrame {
 
 
 		JPanel panelCentro = new JPanel();
-		JPanel botones = new JPanel(new GridLayout(3, 1, 0, 70));
+		JPanel botones = new JPanel(new GridLayout(4, 1, 0, 70));
 		panelCentro.setLayout(new GridBagLayout());
 
 		JButton menus = new JButton("Menús");
 		JButton depositos = new JButton("Depósitos");
 		JButton proovedores = new JButton("Proovedores");
+		JButton platos = new JButton("Platos");
 
 		botones.add(menus);
 		botones.add(depositos);
 		botones.add(proovedores);
+		botones.add(platos);
 		
 				
 		menus.setPreferredSize(new Dimension(320, 50));
 		depositos.setPreferredSize(new Dimension(320, 50));
 		proovedores.setPreferredSize(new Dimension(320, 50));
+		platos.setPreferredSize(new Dimension(320, 50));
 
 		menus.setBackground(new Color(40, 120, 181));
 		depositos.setBackground(new Color(40, 120, 181));
 		proovedores.setBackground(new Color(40, 120, 181));
-
+		platos.setBackground(Color.gray);
+		
 		menus.setForeground(Color.white);
 		depositos.setForeground(Color.white);
 		proovedores.setForeground(Color.white);
-
+		platos.setForeground(Color.white);
+		
 		menus.setFont(new Font("SansSerif", Font.BOLD, 25));
 		depositos.setFont(new Font("SansSerif", Font.BOLD, 25));
 		proovedores.setFont(new Font("SansSerif", Font.BOLD, 25));
+		platos.setFont(new Font("SansSerif", Font.BOLD, 25));
+		
 		botones.setBackground(new Color(30, 58, 95));
 		botones.setBorder(new LineBorder(new Color(30, 58, 95), 10, true));
 
@@ -159,6 +167,22 @@ public class VentanaMenu extends JFrame {
 
 			}
 		});
+		
+		platos.addActionListener(new ActionListener() {
+			
+			
+			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println("Platos");
+				
+				ventanaContenidoMenu ventanaContMenu = new ventanaContenidoMenu();
+				ventanaContMenu.setVisible(true);
+				
+				setVisible(false);
+				
+			}
+		});
+		
 		
 		//botón salir
 		

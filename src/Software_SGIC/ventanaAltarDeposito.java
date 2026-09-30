@@ -16,6 +16,7 @@ public class ventanaAltarDeposito extends JFrame {
 		this.setResizable(false); 
 		this.setLayout(new FlowLayout());
 		
+		
 		JPanel panel1 = new JPanel(); //grilla principal
 		JPanel panel2 = new JPanel(); //título
 		JPanel panel3 = new JPanel(); //todo

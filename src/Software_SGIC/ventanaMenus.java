@@ -65,30 +65,37 @@ public class ventanaMenus extends JFrame {
 		ImageIcon iconoRedimensionado = new ImageIcon(imagenModificada);
 		JButton lblContImgn1 = new JButton(iconoRedimensionado);
 		lblContImgn1.setPreferredSize(new Dimension(60,60));
+		lblContImgn1.setToolTipText("Crear menú");
 		
 		ImageIcon imagen2 = new ImageIcon("2.png");
 		Image imagenModificada2 = imagen2.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado2 = new ImageIcon(imagenModificada2);
 		JButton lblContImgn2 = new JButton(iconoRedimensionado2);
 		lblContImgn2.setPreferredSize(new Dimension(60,60));
+		lblContImgn2.setToolTipText("Modificar menú");
 		
 		ImageIcon imagen3 = new ImageIcon("3.png");
 		Image imagenModificada3 = imagen3.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado3 = new ImageIcon(imagenModificada3);
 		JButton lblContImgn3 = new JButton(iconoRedimensionado3);
 		lblContImgn3.setPreferredSize(new Dimension(60,60));
+		lblContImgn3.setToolTipText("Eliminar menú");
 		
 		ImageIcon imagen4 = new ImageIcon("4.png");
 		Image imagenModificada4 = imagen4.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado4 = new ImageIcon(imagenModificada4);
 		JButton lblContImgn4 = new JButton(iconoRedimensionado4);
 		lblContImgn4.setPreferredSize(new Dimension(60,60));
+		lblContImgn4.setToolTipText("Retroceder");
+		
 		
 		ImageIcon imagen5 = new ImageIcon("5.png");
 		Image imagenModificada5 = imagen5.getImage().getScaledInstance(50,50, Image.SCALE_SMOOTH);
 		ImageIcon iconoRedimensionado5 = new ImageIcon(imagenModificada5);
 		JButton lblContImgn5 = new JButton(iconoRedimensionado5);
 		lblContImgn5.setPreferredSize(new Dimension(60,60));
+		
+		lblContImgn5.setToolTipText("Ver platos en menú");
 		
 		panel3.add(lblContImgn1);
 		panel3.add(lblContImgn2);
@@ -242,10 +249,12 @@ public class ventanaMenus extends JFrame {
 			//@Override	
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("Inspeccionar");
-								
-				ventanaContenidoMenu contenidoMenú = new ventanaContenidoMenu();
-				contenidoMenú.setVisible(true);
 				
+				ventanaContenidoMenu platos = new ventanaContenidoMenu();
+				platos.setVisible(true);
+			/*	ventanaInspeccionar inspec = new ventanaInspeccionar("brr");
+				inspec.setVisible(true);
+				*/
 				setVisible(false);
 
 			}			
